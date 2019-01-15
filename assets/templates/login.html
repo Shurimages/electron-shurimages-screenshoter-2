@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"> 
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<link href="../css/fonts.css" rel="stylesheet" type="text/css">
+		<link href="../css/reset.css" rel="stylesheet" type="text/css">
+		<link href="../css/login.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div id="login">
+			<p class="title">Sign In</p>
+			<div id="tohide">
+				<p id="error"></p>
+				<form action="#" id="loginform" method="post">
+					<p class="input"><input type="text" id="username" placeholder="Username" /></p>
+					<p class="input"><input type="password" id="password" placeholder="Password"/></p>
+					<p class="remember">
+						<input checked type="checkbox" name="remember" id="remember" />
+						<label for="remember">Keep me logged in</label>
+					</p>
+					<p class="input"><input type="submit" value="Sign In" /></p>
+				</form>
+				<p class="link"><span id="register">Create Account</span></p>
+				<p class="link"><span id="resetpassword">Forgot password?</span></p>
+			</div>
+			<div id="loading">
+				<img src="../img/loading.svg" />
+			</div>
+		</div>
+		<script>
+			(function($){
+				var ipc = require('electron').ipcRenderer;
+				document.getElementById('loginform').onsubmit = function(e){
+					e.preventDefault();
+					e.stopPropagation();
+					var username = document.getElementById('username').value,
+						password = document.getElementById('password').value,
+						remember = document.getElementById('remember').checked;
+						
+					
+					ipc.once('loginResponse', function(event, response){
+						document.getElementById("error").innerHTML = response;
+						$('#loading').delay(250).fadeOut(250);
+						$('#tohide').delay(500).fadeIn(250);
+					});
+					
+					$('#tohide').fadeOut(0);
+					$('#loading').fadeIn();
+					ipc.send('login', [username,password,remember]);
+				
+				
+					return false;
+				};
+				document.getElementById('register').addEventListener('click', function(){
+					ipc.send('goRegister', "");
+				});
+				document.getElementById('resetpassword').addEventListener('click', function(){
+					ipc.send('goResetPassword', "");
+				});
+			})(jQuery);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,16 @@
+body{font-family:Ubuntu;overflow:hidden;}
+#login{text-align:center;padding: 2em;}
+#login p.title{font-size:26px;margin-bottom:20px;color:#333;}
+#login p.input{padding: 20px 0px;}
+#login input[type="text"]{width:100%;color:#333;box-sizing:border-box;padding:10px 10px;border-radius:8px;border: 1px #848484 solid;text-align: center;font-size: 16px;}
+#login input[type="password"]{width:100%;color:#333;box-sizing:border-box;padding:10px 10px;border-radius:8px;border: 1px #848484 solid;text-align: center;font-size: 16px;}
+#login input[type="checkbox"]{width: 23px;height: 23px;}
+#login input[type="submit"]{width: 80%;box-sizing: border-box;cursor:pointer;padding: 10px 20px;text-align: center;background: #189bc5;border: 0;color: #FFF;border-radius: 10px;font-size: 16px;}
+#login input[type="submit"]:hover{background:#0788b1;}
+#login input[type="text"]:focus, #login input[type="password"]:focus, #login input[type="checkbox"]:focus{outline: none !important;border:1px solid #189bc5;box-shadow: 0 0 5px #719ECE;}
+#login label{vertical-align: super;color:#333;}
+#login p.link{margin-top:20px;color:#189bc5;cursor:pointer;}
+#login p.link:hover{text-decoration:underline;}
+#login p#error{min-height:18px;height:18px; max-height:18px;color:#d21d1d;}
+#login #loading{text-align:center; display:none; padding:20px 15%;}
+#login #loading img{max-width:64px;margin:100px auto;}

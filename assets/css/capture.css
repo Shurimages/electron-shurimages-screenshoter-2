@@ -1,0 +1,5 @@
+.bg{position:absolute;top:0;bottom:0;left:0;right:0;}
+.size{top:-16px;position: absolute;z-index: 1;color: #fff;font-size: 0.9em;font-family:Ubuntu;text-shadow:0px 0px 2px #000;}
+.zone{position: absolute;border: 1px #d2d2d2 solid;z-index: 2;}
+.capture{position:absolute;background:rgba(255,255,255,0.5);}
+.capture.capture1{top:0;bottom:0;left:0;right:0;}

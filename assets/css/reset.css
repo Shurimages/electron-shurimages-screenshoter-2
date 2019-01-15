@@ -1,0 +1,14 @@
+body, p, blockquote{margin:0;padding:0;}
+input, textarea, select{margin:0;padding:1px;font-size:100%;font-family:inherit;}
+form, fieldset{margin:0;padding:0;}
+fieldset{border:1px solid #000;}
+legend{padding:0;color:#000;}
+h1, h2, h3, h4, h5, h6{margin:0;padding:0;font-size:100%;font-weight:normal;}
+ul, ol, dl, li, dt, dd{margin:0;padding:0;}
+select{padding:0;}
+a img, iframe{border:0;}
+a, a:link{text-decoration:none;color:d}
+a:visited{text-decoration:none;}
+a:hover{text-decoration:none;}
+a:active{text-decoration:none;}
+iframe, frame{padding:0;margin:0;}
