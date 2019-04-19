@@ -1,4 +1,5 @@
 const electron = require('electron');
+const { dialog } = require('electron');
 const app = electron.app;
 const fetch = require('electron-fetch');
 const crypto = require('crypto');
@@ -84,6 +85,7 @@ app.on('ready', function(e,f){
 	electron.shurimages.api.get_last_version(
 		/* on success */
 		function(version){
+			console.log(electron.shurimages.config.version, version);
 			if(electron.shurimages.config.version == version){
 				/** SCREENSHOT **/
 				function take_screenshot(){
@@ -104,7 +106,12 @@ app.on('ready', function(e,f){
 									app.quit();
 								},
 								function(error){
-									console.log("TOOD: uploading error...", error);
+									console.log("DEBUG: Upload API Call error", error);
+									dialog.showErrorBox(
+										"Connection issue",
+										"We could not connect to our API endpoint. Please, ensure your internet is not down or try again later. If this issue persist please contact us at https://shurimages.com/contact"
+									);
+									app.quit();
 								}
 							);
 						}
@@ -138,11 +145,15 @@ app.on('ready', function(e,f){
 								/* on error */ 
 								}, function(err, fatal){
 									if(!fatal){
-										window.error(err);
 										console.log("DEBUG: Login error "+ err);
+										window.error(err);
 									}else{
-										console.log("TODO: Login issue");
-										console.log("DEBUG: Login request HTTP error");
+										console.log("DEBUG: Login API Call error", error);
+										dialog.showErrorBox(
+											"Connection issue",
+											"We could not connect to our API endpoint. Please, ensure your internet is not down or try again later. If this issue persist please contact us at https://shurimages.com/contact"
+										);
+										app.quit();
 									}
 								}
 							);
@@ -167,21 +178,33 @@ app.on('ready', function(e,f){
 						},
 						/* on error */ 
 						function(error){
-							// TODO: APP Error
 							console.log("DEBUG: Session couldn't be validated");
-							console.log("TODO: API Session validation issue", error);
+							/*	might not be needed
+							dialog.showMessageBox(null, {
+								type: "warning",
+								title: "Session corrupted",
+								message: "We were unable to validate your session. Please login again"
+							})*/
 							require_login();
 						}
 					);
 				}
 			}else{
-				// TODO: APP outdated
-				console.log("TODO: Version update or error");
+				console.log("DEBUG: Version update or error");
+				dialog.showErrorBox(
+					"Out of date",
+					"Please, download the new version!"
+				);
+				app.quit();
 			}
 		/* on error */ 
 		},function(error){
-			// TODO: Api ERROR - json maybe
-			console.log("TODO: API Call error", error);
+			console.log("DEBUG: API Call error", error);
+			dialog.showErrorBox(
+				"Connection issue",
+				"We could not connect to our API endpoint. Please, ensure your internet is not down or try again later. If this issue persist please contact us at https://shurimages.com/contact"
+			);
+			app.quit();
 		}
 	);
 });

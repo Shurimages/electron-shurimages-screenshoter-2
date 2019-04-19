@@ -8,7 +8,8 @@
     "crypto": "^1.0.1",
     "electron-fetch": "^1.3.0",
     "electron-log": "^3.0.5",
-    "electron-updater": "^4.0.6"
+    "electron-updater": "^4.0.6",
+    "form-data": "^2.3.3"
   },
   "devDependencies": {
     "asar": "^0.14.5",
@@ -29,8 +30,6 @@
     "pack64": "electron-packager . Shurimages --overwrite --platform=win32 --arch=x64  --icon=logo.ico --prune=true --out=..\\release-builds --version-string.ProductName='Shurimages'",
     "asar32": "asar pack ..\\release-builds\\Shurimages-win32-ia32\\resources\\app ..\\release-builds\\Shurimages-win32-ia32\\resources\\app.asar",
     "asar64": "asar pack ..\\release-builds\\Shurimages-win32-x64\\resources\\app  ..\\release-builds\\Shurimages-win32-x64\\resources\\app.asar",
-    "clean32": "rm ..\\release-builds\\Shurimages-win32-ia32\\resources\\app -y",
-    "clean64": "rm ..\\release-builds\\Shurimages-win32-x64\\resources\\app  -rf",
     "build32": "electron-builder --win --ia32 --prepackaged ..\\release-builds\\Shurimages-win32-ia32",
     "build64": "electron-builder --win --x64  --prepackaged ..\\release-builds\\Shurimages-win32-x64",
     "customunasar": "asar extract ..\\app.asar ..\\asarunpacked"
