@@ -9,10 +9,11 @@ electron.shurimages = {};
 /**	SINGLE INSTANCE	**/
 /*********************/
 if(!app.requestSingleInstanceLock()){
-  app.quit();
-  return;
+	console.log("DEBUG: Unnable to lock single instance. Quitting...");
+	app.quit();
+	return;
 };
-app.on('second-instance', function(event, commandLine, workingDirectory){
+// app.on('second-instance', function(event, commandLine, workingDirectory){
 	// if(
 		// typeof electron.shurimages.window !== "undefined" &&
 		// electron.shurimages.window != null
@@ -29,7 +30,7 @@ app.on('second-instance', function(event, commandLine, workingDirectory){
 			// electron.shurimages.window.focus();
 		// }
 	// }
-});
+// });
 
 
 /*********************/
@@ -68,13 +69,29 @@ app.on('ready', function(e,f){
 						electron.shurimages.config.app_path, 
 						electron.ipcMain,
 						electron.BrowserWindow,
-						electron.shurimages.screen.displays
+						electron.shurimages.screen.displays,
+						app,
+						function(image){
+							electron.shurimages.api.upload(
+								image,
+								electron.shurimages.data.get_value('userid'),
+								electron.shurimages.data.get_value('token'),
+								function(data){
+									electron.shell.openExternal(data.msg);
+									app.quit();
+								},
+								function(error){
+									console.log("TOOD: uploading error...", error);
+								}
+							);
+						}
 					);
 					electron.shurimages.windowObject.display();
 				}
 				
 				/** LOGIN **/
 				function require_login(){
+					console.log("REQUIRING LOGIN");
 					electron.shurimages.windowObject = new electron.shurimages.libs.login(
 						electron.shurimages.config.app_path, 
 						electron.ipcMain,
@@ -94,6 +111,7 @@ app.on('ready', function(e,f){
 									electron.shurimages.data.set_value('remember', 	remember);
 									electron.shurimages.data.save_config();
 									take_screenshot();
+									window.getWindow().close();
 								/* on error */ 
 								}, function(err, fatal){
 									if(!fatal){
@@ -109,6 +127,7 @@ app.on('ready', function(e,f){
 					);
 					electron.shurimages.windowObject.display();
 				}
+				
 				if(electron.shurimages.data.get_value('remember') === false){
 					/** NO SESSION FOUND **/
 					console.log("DEBUG: No session found");

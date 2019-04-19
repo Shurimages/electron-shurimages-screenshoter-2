@@ -36,6 +36,7 @@ var API = function(fetch, crypto, FormData, apikey, apiuri, lang){
 			}
 		});
 	};
+
 	this.login = function(username, password, remember, callback_success, callback_error){
 		var encryptedPassword = crypto.createHash('sha1').update(
 			crypto.createHash('md5').update(password).digest("hex")
@@ -61,7 +62,30 @@ var API = function(fetch, crypto, FormData, apikey, apiuri, lang){
 		});
 		
 	};
-	this.upload = function(){};
+	
+	this.upload = function(imgpath, id, token, callback_success, callback_error){
+		var fs = require('fs'),
+			data = new FormData();
+		data.append("pic", fs.createReadStream(imgpath));
+	
+		fetch(this.apiuri + "/"+ this.lang +"/"+ this.apikey+"/"+ id +"/"+ token +"/uploadimage.json", {
+			method: 'POST',
+			body: data
+		})
+		.then(function(response){
+			return response.json();
+		})
+		.catch(function(err){
+			callback_error(err);
+		})
+		.then(function(json){
+			if(json.code == 200){
+				callback_success(json);
+			}else{
+				callback_error(json.msg);
+			}
+		});
+	};
 	
 
 };

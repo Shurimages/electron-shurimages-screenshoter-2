@@ -1,14 +1,16 @@
-var screenshotWindow = function(app_path, ipc, BrowserWindow, screens){
+var screenshotWindow = function(app_path, ipc, BrowserWindow, screens, app, submit_image){
 	this.file = "file://" + app_path + "/assets/templates/capture.html";
 	this.events = [];
+	this.app = app;
 	
 	this.bindings = function(){
 		var _this = this;
 		
 		//Receive alive and send ready when all screens are alive.
 		ipc.on('alive', function(event, data){
+			console.log(data + " is alive");
 			for(var i = 0;  i < _this.windows.length; i++){
-				if(_this.windows[i].id == data){
+				if(_this.windows[i].sid == data){
 					_this.windows[i].event = event;
 				}
 			}
@@ -16,6 +18,15 @@ var screenshotWindow = function(app_path, ipc, BrowserWindow, screens){
 		
 		ipc.on('quit', function(event, data){
 			console.log("quit request");
+			for(var i = 0;  i < _this.windows.length; i++){
+				_this.windows[i].close();
+			}
+			_this.app.quit()
+		});
+
+		ipc.on('captured', function(event, data){
+			console.log("captured", data);
+			submit_image(data.path);
 		});
 	};
 	
@@ -29,6 +40,11 @@ var screenshotWindow = function(app_path, ipc, BrowserWindow, screens){
 	this.ready  = function(){
 		for(var i = 0;  i < this.windows.length; i++){
 			this.windows[i].event.sender.send('ready');
+		}
+	}
+	this.close  = function(){
+		for(var i = 0;  i < this.windows.length; i++){
+			this.windows[i].close();
 		}
 	}
 	
@@ -64,10 +80,9 @@ var screenshotWindow = function(app_path, ipc, BrowserWindow, screens){
 			minimizable: true,
 			useContentSize: false,
 		});
-		w.id = screens[i].id;
-		w.loadURL(this.file + "#" + w.id);
+		w.sid = screens[i].id;
+		w.loadURL(this.file + "#" + w.sid);
 		this.windows.push(w);
-		break;
 	}
 };
 module.exports = screenshotWindow;
