@@ -3,6 +3,7 @@ const app = electron.app;
 const fetch = require('electron-fetch');
 const crypto = require('crypto');
 const FormData = require('form-data');
+const {autoUpdater} = require('electron-updater');
 electron.shurimages = {};
 
 /*********************/
@@ -32,6 +33,28 @@ if(!app.requestSingleInstanceLock()){
 	// }
 // });
 
+autoUpdater.logger = require("electron-log")
+autoUpdater.logger.transports.file.level = "info"
+autoUpdater.on('checking-for-update', function(){
+	console.log("Checking for updates...");
+});
+autoUpdater.on('update-available', function(info){
+	console.log("Update available", info);
+});
+autoUpdater.on('update-not-available', function(info){
+	console.log("Your version is up to date!", info);
+});
+autoUpdater.on('error', function(error){
+	console.log("Autoupdating error...", error);
+});
+autoUpdater.on('download-progress', function(progressObj){
+	// console.log("Download speed: ", progressObj.bytesPerSecond, "Downloaded", progressObj.percent, "/", progressObj.)
+	console.log("Downloading...", progressObj);
+});
+autoUpdater.on('update-downloaded', function(info){
+	console.log("Update downloaded, installing...");
+	autoUpdater.quitAndInstall();
+});
 
 /*********************/
 /** DEPENDENCIES	**/
