@@ -1,10 +1,10 @@
 {
-  "name": "shurimages",
+  "name": "Shurimages",
   "description": "Shurimages desktop APP",
   "productName": "Shurimages",
   "main": "index.js",
 
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "git@github.com:Shurimages/shurimages-screenshoter",
 
   "dependencies": {
@@ -33,7 +33,8 @@
     "buildwin64": "electron-builder --win --x64",
     "buildmac": "electron-builder --mac --x64",
 
-    
+    "publishwin": "electron-builder --win --ia32 --x64 -p always",
+
     "customunasar": "asar extract .\\dist\\win-unpacked\\resources\\app.asar .\\dist\\win-unpacked\\resources\\asarunpacked"
   },
   "author": "https://github.com/jsanahuja",
