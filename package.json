@@ -32,6 +32,9 @@
     "build": "electron-builder --platform all --arch all",
     "publish": "electron-builder --platform all --arch all -p always",
 
+    "packlinux": "electron-builder --dir --linux --armv7l --arm64",
+    "buildlinux": "electron-builder --linux --armv7l --arm64",
+
     "customunasar": "asar extract .\\dist\\win-unpacked\\resources\\app.asar .\\dist\\win-unpacked\\resources\\asarunpacked"
   },
   "author": "https://github.com/jsanahuja",
