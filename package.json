@@ -4,7 +4,7 @@
   "productName": "Shurimages",
   "main": "index.js",
 
-  "version": "1.0.0",
+  "version": "1.0.2",
   "repository": "git@github.com:Shurimages/shurimages-screenshoter",
 
   "dependencies": {
@@ -28,12 +28,9 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "start": "electron .",
-    "pack": "electron-builder --dir",
-    "buildwin32": "electron-builder --win --ia32",
-    "buildwin64": "electron-builder --win --x64",
-    "buildmac": "electron-builder --mac --x64",
-
-    "publishwin": "electron-builder --win --ia32 --x64 -p always",
+    "pack": "electron-builder --dir --platform all --arch all",
+    "build": "electron-builder --platform all --arch all",
+    "publish": "electron-builder --platform all --arch all -p always",
 
     "customunasar": "asar extract .\\dist\\win-unpacked\\resources\\app.asar .\\dist\\win-unpacked\\resources\\asarunpacked"
   },
